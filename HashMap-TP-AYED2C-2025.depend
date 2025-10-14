@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1760468739 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\hash_map.c
+	"hash_map.h"
+	<stdio.h>
+
+1760468560 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\hash_map.h
+	"listaDinamica.h"
+
+1760468739 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"hash_map.h"
+	"listaDinamica.h"
+
+1760467267 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\listadinamica.h
+
+1760468571 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\listadinamica.c
+	<string.h>
+	<stdlib.h>
+	<stdio.h>
+	"listaDinamica.h"
+
