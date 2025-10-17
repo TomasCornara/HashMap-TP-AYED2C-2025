@@ -31,6 +31,14 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="hash_map.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="hash_map.h" />
+		<Unit filename="listaDinamica.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="listaDinamica.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
