@@ -31,6 +31,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="globales.h" />
 		<Unit filename="hash_map.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -42,6 +43,14 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="menu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="menu.h" />
+		<Unit filename="parseArchivos.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="parseArchivos.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

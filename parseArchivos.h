@@ -6,7 +6,6 @@
 
 
 FILE* abrirArchivoTextoL(char* nombre_arch);
-int esCharPunt(char ch);
 char* sigPalArch(FILE* arch, char* buffer, size_t buffer_size);
 char* quitarPuntuacion(char* buffer, char* buffer_signos);
 

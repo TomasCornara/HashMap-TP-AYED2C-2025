@@ -1,12 +1,12 @@
 # depslib dependency file v1.0
-1760468739 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\hash_map.c
+1760812218 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\hash_map.c
 	"hash_map.h"
 	<stdio.h>
 
-1760468560 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\hash_map.h
+1760812218 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\hash_map.h
 	"listaDinamica.h"
 
-1760719548 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\main.c
+1760750514 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -29,15 +29,16 @@
 	<ctype.h>
 	"parseArchivos.h"
 
-1760713847 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\parsearchivos.h
+1760812218 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\parsearchivos.h
 	<stdio.h>
 
 1760712308 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\globales.h
 
-1760719548 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\menu.h
+1760809082 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\menu.h
 
-1760720174 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\menu.c
+1760751515 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\menu.c
 	<stdio.h>
+	<time.h>
 	<windows.h>
 	"menu.h"
 
