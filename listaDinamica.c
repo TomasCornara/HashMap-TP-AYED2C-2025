@@ -46,29 +46,41 @@ void vaciarLista(tLista* lista){
     }
 }
 
-int ponerEnLista(tLista* lista, const void* dato, unsigned cantBytes, int comparar(const void*,const void*)){
+int ponerEnLista(tLista* lista, const void* dato, unsigned cantBytes,
+                 int (*comparar)(const void*, const void*),
+                 void (*accionDuplicado)(void*, const void*)) {
     tNodo* nue;
-    tNodo** p_lista = lista; // Usar un puntero auxiliar para recorrer
+    tNodo** p_lista = lista;
 
-    if(!(nue = malloc(sizeof(tNodo) + cantBytes))){
+    // Validación de parametros
+    if (!lista || !dato || !comparar)
         return 0;
-    }
 
-    //Carga el nodo
-    memcpy(nue + 1,dato,cantBytes);
-    nue->tam = cantBytes;
-
-    //Busca posicion
-    while(*p_lista && comparar(dato,(*p_lista) + 1) > 0){
+    // Buscar posicion ordenada
+    while (*p_lista && comparar(dato, (*p_lista) + 1) > 0)
         p_lista = &((*p_lista)->sig);
+
+    // Si ya existe el elemento
+    if (*p_lista && comparar(dato, (*p_lista) + 1) == 0) {
+        if (!accionDuplicado)
+            return 0;
+        accionDuplicado((*p_lista) + 1, dato);
+        return 1;
     }
 
+    // Crear nuevo nodo
+    nue = malloc(sizeof(tNodo) + cantBytes);
+    if (!nue)
+        return 0;
+
+    memcpy(nue + 1, dato, cantBytes);
+    nue->tam = cantBytes;
     nue->sig = *p_lista;
     *p_lista = nue;
 
-
     return 1;
 }
+
 
 void map_lista(const tLista* lista,void print(const void* elem)){
     while(*lista){

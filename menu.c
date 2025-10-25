@@ -5,7 +5,7 @@
 
 
 char* crearRegistro(char* buffer, char* palabra, unsigned apariciones){
-    sprintf(buffer,"  | Palabra: %s\t Apariciones: %d     ||\n",palabra,apariciones);
+    sprintf(buffer,"    Pal: %-20s  Apariciones: %-15u\n", palabra, apariciones);
     return buffer;
 }
 

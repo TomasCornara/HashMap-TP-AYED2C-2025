@@ -1,12 +1,12 @@
 # depslib dependency file v1.0
-1760812218 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\hash_map.c
+1761361692 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\hash_map.c
 	"hash_map.h"
 	<stdio.h>
 
-1760812218 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\hash_map.h
+1761361690 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\hash_map.h
 	"listaDinamica.h"
 
-1760750514 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\main.c
+1761362633 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -16,9 +16,9 @@
 	"globales.h"
 	"menu.h"
 
-1760467267 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\listadinamica.h
+1761337598 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\listadinamica.h
 
-1760468571 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\listadinamica.c
+1761337577 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\listadinamica.c
 	<string.h>
 	<stdlib.h>
 	<stdio.h>
@@ -34,9 +34,9 @@
 
 1760712308 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\globales.h
 
-1760809082 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\menu.h
+1761362633 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\menu.h
 
-1760751515 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\menu.c
+1761362816 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\menu.c
 	<stdio.h>
 	<time.h>
 	<windows.h>
