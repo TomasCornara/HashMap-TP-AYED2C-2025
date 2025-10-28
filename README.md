@@ -1,6 +1,6 @@
 # HashMap - Diccionario de Datos
 
-![demo.png](https://github.com/TomasCornara/HashMap-TP-AYED2C-2025/blob/main/demo.png?raw=true)
+![demo.png](https://github.com/TomasCornara/HashMap-TP-AYED2C-2025/blob/main/demo.png)
 
 ## Descripción
 
