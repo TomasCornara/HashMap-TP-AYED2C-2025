@@ -1,6 +1,6 @@
 # HashMap - Diccionario de Datos
 
-![Demo](demo.png)
+![demo.png](https://github.com/TomasCornara/HashMap-TP-AYED2C-2025/blob/main/demo.png?raw=true)
 
 ## Descripción
 
@@ -38,7 +38,7 @@ El programa acepta archivos con extensión `.txt` o agrega automáticamente la e
 5. **Conteo**: Incrementa el contador de apariciones para palabras duplicadas
 6. **Visualización**: Muestra los resultados con una interfaz animada
 
-![Diagrama Conceptual](conceptual.png)
+![Diagrama Conceptual](https://raw.githubusercontent.com/TomasCornara/HashMap-TP-AYED2C-2025/main/conceptual.png)
 
 ## Algoritmos Implementados
 
