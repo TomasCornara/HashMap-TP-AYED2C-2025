@@ -1,6 +1,9 @@
 #ifndef MENU_H_INCLUDED
 #define MENU_H_INCLUDED
 
+#define ESPERA_SALTO_LINEA 2
+#define ESPERA_LETRA 1
+
 #define HEADER \
         "                                                                                        \n"\
         "  --------------------------------------------------------------------------------------\n"\
@@ -28,7 +31,7 @@
 
 
 void printAnimacion(char* texto);
-char* crearRegistro(char* buffer, char* palabra, unsigned apariciones);
+char* formatearRegistro(char* buffer, char* palabra, unsigned apariciones);
 
 
 #endif // MENU_H_INCLUDED

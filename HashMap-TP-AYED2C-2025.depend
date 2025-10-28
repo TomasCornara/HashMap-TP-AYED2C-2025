@@ -6,7 +6,7 @@
 1761361690 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\hash_map.h
 	"listaDinamica.h"
 
-1761362633 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\main.c
+1761670668 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -24,19 +24,19 @@
 	<stdio.h>
 	"listaDinamica.h"
 
-1760714892 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\parsearchivos.c
+1761670416 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\parsearchivos.c
 	<string.h>
 	<ctype.h>
 	"parseArchivos.h"
 
-1760812218 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\parsearchivos.h
+1761670416 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\parsearchivos.h
 	<stdio.h>
 
 1760712308 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\globales.h
 
-1761362633 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\menu.h
+1761670668 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\menu.h
 
-1761362816 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\menu.c
+1761670668 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\menu.c
 	<stdio.h>
 	<time.h>
 	<windows.h>

@@ -27,8 +27,7 @@ int main(int argc, char *argv[])
     char* nombre_arch;
     FILE* arch;
     t_HashMap diccionario;
-    t_Registro buffer_registro,
-               buffer_puntuacion;
+    t_Registro buffer_registro;
 
 
 
@@ -47,19 +46,12 @@ int main(int argc, char *argv[])
     }
     crear_hash_map(&diccionario);
     buffer_registro.apariciones = 0;
-    buffer_puntuacion.apariciones = 0;
 
     ///Bloque proceso
     while(sigPalArch(arch,buffer_registro.texto,MAX_BUFFER)){
         buffer_registro.apariciones = 1;  // Inicializar apariciones en 1
-        buffer_puntuacion.apariciones = 1;  // Inicializar apariciones en 1
 
-        //Revisar si hay signos de puntuacion que sacar y poner en el hash
-        if(quitarPuntuacion(buffer_registro.texto,buffer_puntuacion.texto)){
-            poner_en_hmap(&diccionario,&buffer_puntuacion,sizeof(t_Registro),hash_tRegistro,cmp_tRegistro,registroDuplicado);
-        }
-
-        //Poner la palabra
+        //Poner la palabra o signo de puntuacion
         poner_en_hmap(&diccionario,&buffer_registro,sizeof(t_Registro),hash_tRegistro,cmp_tRegistro,registroDuplicado);
     }
 
@@ -94,8 +86,8 @@ unsigned hash_tRegistro(const void* elem){
 void mostrarRegistro(const void* elem){
     char buffer[MAX_BUFFER];
     t_Registro* registro = (t_Registro*)elem;
-    crearRegistro(buffer, registro->texto, registro->apariciones);
-    printAnimacion(buffer);
+    formatearRegistro(buffer, registro->texto, registro->apariciones);
+    printf("%s",buffer);
 }
 
 void mostrarHashMap(t_HashMap* hm){

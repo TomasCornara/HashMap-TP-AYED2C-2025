@@ -7,6 +7,5 @@
 
 FILE* abrirArchivoTextoL(char* nombre_arch);
 char* sigPalArch(FILE* arch, char* buffer, size_t buffer_size);
-char* quitarPuntuacion(char* buffer, char* buffer_signos);
 
 #endif // PARSEARCHIVOS_H_INCLUDED

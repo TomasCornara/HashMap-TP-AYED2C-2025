@@ -25,37 +25,36 @@ char* sigPalArch(FILE* arch, char* buffer, size_t buffer_size){
     int c;
     size_t i = 0;
 
-    while(i < buffer_size - 1 && (c = fgetc(arch)) != EOF){
-        if(isspace(c)){
-            buffer[i] = '\0';
+    // Saltar espacios en blanco al inicio
+    while((c = fgetc(arch)) != EOF && isspace(c));
+
+    // Si llegamos al final del archivo sin encontrar nada
+    if(c == EOF){
+        return NULL;
+    }
+
+    // Si es un signo de puntuacion, devolverlo como una palabra de un solo caracter
+    if(ispunct(c)){
+        if(buffer_size > 1){
+            buffer[0] = (char)c;
+            buffer[1] = '\0';
             return buffer;
+        }
+        return NULL; // Buffer muy pequeño
+    }
+
+    // Es el inicio de una palabra normal, agregar el primer carácter
+    buffer[i++] = (char)c;
+
+    // Leer el resto de la palabra (caracteres no espacios y no puntuación)
+    while(i < buffer_size - 1 && (c = fgetc(arch)) != EOF){
+        if(isspace(c) || ispunct(c)){
+            fseek(arch, -1, SEEK_CUR);
+            break;
         }
         buffer[i++] = (char)c;
     }
 
-    if(i > 0){
-        buffer[i] = '\0';
-        return buffer;
-    }
-    return NULL;
-}
-
-char* quitarPuntuacion(char* buffer, char* buffer_signos){
-    int i = 0, j = 0, k = 0;
-
-    while(buffer[i]){
-        if(ispunct(buffer[i])){
-            buffer_signos[k] = buffer[i];
-            k++;
-        } else {
-            buffer[j] = buffer[i];
-            j++;
-        }
-        i++;
-    }
-
-    buffer[j] = '\0';
-    buffer_signos[k] = '\0';
-
-    return (k > 0) ? buffer_signos : NULL;
+    buffer[i] = '\0';
+    return buffer;
 }

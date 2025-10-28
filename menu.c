@@ -4,8 +4,8 @@
 #include "menu.h"
 
 
-char* crearRegistro(char* buffer, char* palabra, unsigned apariciones){
-    sprintf(buffer,"    Pal: %-20s  Apariciones: %-15u\n", palabra, apariciones);
+char* formatearRegistro(char* buffer, char* palabra, unsigned apariciones){
+    sprintf(buffer,"   Pal: %-20s  Apariciones: %-15u\n", palabra, apariciones);
     return buffer;
 }
 
@@ -24,9 +24,9 @@ void printAnimacion(char* texto){
         fflush(stdout);
 
         if (*temp == '\n') {
-            esperar_ms(2);
+            esperar_ms(ESPERA_SALTO_LINEA);
         } else {
-            esperar_ms(1);
+            esperar_ms(ESPERA_LETRA);
         }
         temp++;
     }
