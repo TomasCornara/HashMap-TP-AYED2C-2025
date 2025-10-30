@@ -13,7 +13,7 @@ int listaVacia(const tLista* lista);
 int listaLlena(const tLista* lista, unsigned cantBytes);
 int ponerPrimero(tLista* lista, const void* dato, unsigned cantBytes);
 void vaciarLista(tLista* lista);
-void map_lista(const tLista* lista,void print(const void* elem));
+void map_lista(const tLista* lista,void print(void* elem));
 int ponerEnLista(tLista* lista, const void* dato, unsigned cantBytes,
                  int (*comparar)(const void*, const void*),
                  void (*accionDuplicado)(void*, const void*));

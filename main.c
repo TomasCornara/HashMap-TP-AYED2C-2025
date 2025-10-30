@@ -1,24 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
-#include "hash_map.h"
+#include "diccionario.h"
 #include "listaDinamica.h"
 #include "parseArchivos.h"
 #include "globales.h"
 #include "menu.h"
 
-///Estructura y funciones para esta implementacion en particular
+///funciones para esta implementacion en particular
 typedef struct {
     char texto[MAX_BUFFER];
     unsigned apariciones;
 }t_Registro;
 
-unsigned hash_tRegistro(const void* elem);
+unsigned hash_tRegistro(const char* clave);
 int cmp_tRegistro(const void* elem1, const void* elem2);
 void registroDuplicado(void* elemOriginal, const void* elemEntrante);
-void mostrarRegistro(const void* elem);
-void mostrarHashMap(t_HashMap* hm);
+void mostrarRegistro(void* elem);
+void mostrarHashMap(t_diccionario* hm);
+unsigned hashKR(const char *s);
+void normalizar_minuscula(char *cadena);
 
 ///Programa
 int main(int argc, char *argv[])
@@ -26,7 +29,7 @@ int main(int argc, char *argv[])
     ///Bloque declarativo
     char* nombre_arch;
     FILE* arch;
-    t_HashMap diccionario;
+    t_diccionario dic;
     t_Registro buffer_registro;
 
 
@@ -44,56 +47,79 @@ int main(int argc, char *argv[])
         fprintf(stderr,"Error: No se pudo abrir correctamente el archivo");
         return -2;
     }
-    crear_hash_map(&diccionario);
-    buffer_registro.apariciones = 0;
+    crear_dic(&dic,500);
 
     ///Bloque proceso
     while(sigPalArch(arch,buffer_registro.texto,MAX_BUFFER)){
-        buffer_registro.apariciones = 1;  // Inicializar apariciones en 1
-
-        //Poner la palabra o signo de puntuacion
-        poner_en_hmap(&diccionario,&buffer_registro,sizeof(t_Registro),hash_tRegistro,cmp_tRegistro,registroDuplicado);
+        buffer_registro.apariciones = 1;  // Inicializar apariciones
+        normalizar_minuscula(buffer_registro.texto); //Normalizacion del texto a minus
+        poner_dic(&dic, buffer_registro.texto, &buffer_registro, sizeof(t_Registro), hash_tRegistro, cmp_tRegistro, registroDuplicado); //Poner en diccionario
     }
 
     ///Mostrar resultados
-    mostrarHashMap(&diccionario);
+    recorrer_dic(&dic,mostrarRegistro);
+
+    ///Prueba de obtener_dic
+    printf("\nPrueba de obtener_dic\n");
+    t_Registro* registro_encontrado = (t_Registro*)obtener_dic(&dic, "lorem", hash_tRegistro, cmp_tRegistro);
+    if(registro_encontrado){
+        printf("Palabra 'lorem' encontrada: %u apariciones\n", registro_encontrado->apariciones);
+    } else {
+        printf("Palabra 'lorem' no encontrada en el diccionario\n");
+    }
 
     ///Bloque limpieza
-    vaciar_hash_map(&diccionario);
+    destruir_dic(&dic);
     fclose(arch);
 
 
     return 0;
 }
 
-///Implementacion de funciones necesarias
+///Implementacion de funciones auxiliares necesarias
+void normalizar_minuscula(char *cadena) {
+    if (cadena == NULL) return;
+
+    for (size_t i = 0; cadena[i] != '\0'; i++) {
+        cadena[i] = (char)tolower((unsigned char)cadena[i]);
+    }
+}
+
+unsigned hashKR(const char *s) {
+    unsigned hashval;
+    for (hashval = 0; *s != '\0'; s++)
+        hashval = *s + 31 * hashval;
+    return hashval;
+}
+
 void registroDuplicado(void* elemOriginal, const void* elemEntrante){
-    t_Registro* registroOriginal = (t_Registro*)elemOriginal;
+    t_elemento* elemento_existente = (t_elemento*)elemOriginal;
+    t_Registro* registroOriginal = (t_Registro*)elemento_existente->valor;
     registroOriginal->apariciones++;
 }
 
 int cmp_tRegistro(const void* elem1, const void* elem2){
-    t_Registro* registro1 = (t_Registro*)elem1;
-    t_Registro* registro2 = (t_Registro*)elem2;
-    return strcmp(registro1->texto,registro2->texto);
+    const t_elemento* elemento1 = (const t_elemento*)elem1;
+    const t_elemento* elemento2 = (const t_elemento*)elem2;
+    return strcmp(elemento1->clave, elemento2->clave);
 }
 
-unsigned hash_tRegistro(const void* elem){
-    t_Registro* registro = (t_Registro*)elem;
-    return hash_str(registro->texto);
+unsigned hash_tRegistro(const char* clave){
+    return hashKR(clave);
 }
 
-void mostrarRegistro(const void* elem){
+void mostrarRegistro(void* elem){
     char buffer[MAX_BUFFER];
-    t_Registro* registro = (t_Registro*)elem;
+    t_elemento* elemento = (t_elemento*)elem;
+    t_Registro* registro = (t_Registro*)elemento->valor;
     formatearRegistro(buffer, registro->texto, registro->apariciones);
     printf("%s",buffer);
 }
 
-void mostrarHashMap(t_HashMap* hm){
+void mostrarHashMap(t_diccionario* hm){
     printAnimacion(HEADER);
     getchar();
-    map_hash_map(hm, mostrarRegistro);
+    recorrer_dic(hm, mostrarRegistro);
     printAnimacion("\n  Presione cualquier tecla para terminar...\n");
     getchar();
 }

@@ -52,7 +52,7 @@ int ponerEnLista(tLista* lista, const void* dato, unsigned cantBytes,
     tNodo* nue;
     tNodo** p_lista = lista;
 
-    // Validación de parametros
+    // Validaciï¿½n de parametros
     if (!lista || !dato || !comparar)
         return 0;
 
@@ -82,7 +82,7 @@ int ponerEnLista(tLista* lista, const void* dato, unsigned cantBytes,
 }
 
 
-void map_lista(const tLista* lista,void print(const void* elem)){
+void map_lista(const tLista* lista,void print(void* elem)){
     while(*lista){
         print((*lista) + 1);
         lista = &(*lista)->sig;
