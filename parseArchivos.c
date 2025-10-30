@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -21,45 +22,63 @@ FILE* abrirArchivoTextoL(char* nombre_arch) {
     return fopen(buffer,"rt");
 }
 
-char* sigPalArch(FILE* arch, char* buffer, size_t buffer_size){
+char* sigPalArch(FILE* arch, char* buffer, size_t buffer_size) {
     int c;
     size_t i = 0;
 
-    // Leer el siguiente caracter
-    c = fgetc(arch);
-
-    // Si llegamos al final del archivo sin encontrar nada
-    if(c == EOF){
+    if (buffer_size < 1) {
         return NULL;
     }
 
-    // Si es un \n, saltarlo y buscar el siguiente token
-    if(c == '\n'){
-        return sigPalArch(arch, buffer, buffer_size);
+    c = fgetc(arch);
+    if (c == EOF) {
+        return NULL;
     }
 
-    // Si es un signo de puntuacion o espacio (pero no \n), devolverlo como una palabra de un solo caracter
-    if(ispunct(c) || (isspace(c) && c != '\n')){
-        if(buffer_size > 1){
+    if (isspace((unsigned char)c)) {
+        buffer[i++] = (char)c;
+        int continuar = 1;
+        while (continuar && i < buffer_size - 1) {
+            c = fgetc(arch);
+            if (c == EOF || !isspace((unsigned char)c)) {
+                if (c != EOF) {
+                    ungetc(c, arch);
+                }
+                continuar = 0;
+            } else {
+                buffer[i++] = (char)c;
+            }
+        }
+        buffer[i] = '\0';
+        return buffer;
+    }
+
+    if (ispunct((unsigned char)c)) {
+        if (buffer_size > 1) {
             buffer[0] = (char)c;
             buffer[1] = '\0';
             return buffer;
         }
-        return NULL; // Buffer muy pequeño
+        ungetc(c, arch);
+        return NULL;
     }
 
-    // Es el inicio de una palabra normal, agregar el primer caracter
     buffer[i++] = (char)c;
-
-    // Leer el resto de la palabra (caracteres no espacios y no puntuación)
-    while(i < buffer_size - 1 && (c = fgetc(arch)) != EOF){
-        if(isspace(c) || ispunct(c)){
-            fseek(arch, -1, SEEK_CUR);
-            break;
+    int fin_palabra = 0;
+    while (!fin_palabra && i < buffer_size - 1) {
+        c = fgetc(arch);
+        if (c == EOF || isspace((unsigned char)c) || ispunct((unsigned char)c)) {
+            if (c != EOF) {
+                ungetc(c, arch);
+            }
+            fin_palabra = 1;
+        } else {
+            buffer[i++] = (char)c;
         }
-        buffer[i++] = (char)c;
     }
 
     buffer[i] = '\0';
     return buffer;
 }
+
+

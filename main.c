@@ -27,27 +27,36 @@ void normalizar_minuscula(char *cadena);
 int main(int argc, char *argv[])
 {
     ///Bloque declarativo
-    char* nombre_arch;
+    char nombre_arch[256];
+    unsigned len;
     FILE* arch;
     t_diccionario dic;
     t_Registro buffer_registro;
 
+    ///Menu
+    printAnimacion(HEADER);
+    getc(stdin);
 
-
-    ///Bloque verificacion
-    if(argc != 2){
-        fprintf(stderr,"Error: Cantidad de argumentos incorrecta. Uso: ./programa <nombre_archivo>\n");
+    ///Bloque ingreso de datos
+    printf("Ingrese el nombre del archivo: ");
+    if (fgets(nombre_arch, sizeof(nombre_arch), stdin) == NULL) {
+        fprintf(stderr, "Error: No se pudo leer el nombre del archivo\n");
         return -1;
+    }
+
+    // Eliminar el salto de línea
+    len = strlen(nombre_arch);
+    if (len > 0 && nombre_arch[len - 1] == '\n') {
+        nombre_arch[len - 1] = '\0';
     }
 
 
     ///Bloque inicializacion
-    nombre_arch = argv[1];
     if(!(arch = abrirArchivoTextoL(nombre_arch))){
         fprintf(stderr,"Error: No se pudo abrir correctamente el archivo");
         return -2;
     }
-    crear_dic(&dic,500);
+    crear_dic(&dic,3000);
 
     ///Bloque proceso
     while(sigPalArch(arch,buffer_registro.texto,MAX_BUFFER)){

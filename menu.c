@@ -5,7 +5,7 @@
 
 
 char* formatearRegistro(char* buffer, char* palabra, unsigned apariciones){
-    sprintf(buffer,"   Pal: %-20s  Apariciones: %-15u\n", palabra, apariciones);
+    sprintf(buffer,"   Pal: [ %s ]\n\t Apariciones: %d \n  \n\n", palabra, apariciones);
     return buffer;
 }
 
