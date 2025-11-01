@@ -31,3 +31,31 @@ void printAnimacion(char* texto){
         temp++;
     }
 }
+
+void mostrarMenu() {
+    system("cls");
+    printf("\n");
+    printf("  --------------------------------------------\n");
+    printf("  |           MENU PRINCIPAL                 |\n");
+    printf("  --------------------------------------------\n");
+    printf("  |                                          |\n");
+    printf("  |  1. Mostrar estadisticas generales       |\n");
+    printf("  |  2. Mostrar listado de apariciones       |\n");
+    printf("  |  3. Buscar palabra especifica            |\n");
+    printf("  |  0. Salir                                |\n");
+    printf("  |                                          |\n");
+    printf("  -------------------------------------------\n");
+    printf("\n  Seleccione una opcion: ");
+}
+
+int leerOpcion() {
+    int opcion;
+    char buffer[10];
+
+    if (fgets(buffer, sizeof(buffer), stdin) != NULL) {
+        if (sscanf(buffer, "%d", &opcion) == 1) {
+            return opcion;
+        }
+    }
+    return -1; // Opcion inválida
+}
