@@ -9,6 +9,8 @@
 #include "globales.h"
 #include "menu.h"
 
+#define SIZE_HS 50
+
 ///funciones para esta implementacion en particular
 typedef struct {
     char texto[MAX_BUFFER];
@@ -56,7 +58,7 @@ int main(int argc, char *argv[])
         fprintf(stderr,"Error: No se pudo abrir correctamente el archivo");
         return -2;
     }
-    crear_dic(&dic,3000);
+    crear_dic(&dic,SIZE_HS);
 
     ///Bloque proceso
     while(sigPalArch(arch,buffer_registro.texto,MAX_BUFFER)){
@@ -82,7 +84,7 @@ int main(int argc, char *argv[])
     printf("Intentando eliminar la palabra 'lorem'...\n");
     if(sacar_dic(&dic, "lorem", hash_tRegistro, cmp_tRegistro)){
         printf("Palabra 'lorem' eliminada exitosamente\n");
-        
+
         // Verificar que ya no existe
         registro_encontrado = (t_Registro*)obtener_dic(&dic, "lorem", hash_tRegistro, cmp_tRegistro);
         if(!registro_encontrado){
@@ -136,13 +138,12 @@ void mostrarRegistro(void* elem){
     char buffer[MAX_BUFFER];
     t_elemento* elemento = (t_elemento*)elem;
     t_Registro* registro = (t_Registro*)elemento->valor;
-    formatearRegistro(buffer, registro->texto, registro->apariciones);
+    formatearRegistro(buffer, registro->texto, registro->apariciones,hashKR(elemento->clave) % SIZE_HS);
     printf("%s",buffer);
 }
 
 void mostrarHashMap(t_diccionario* hm){
     printAnimacion(HEADER);
-    getchar();
     recorrer_dic(hm, mostrarRegistro);
     printAnimacion("\n  Presione cualquier tecla para terminar...\n");
     getchar();

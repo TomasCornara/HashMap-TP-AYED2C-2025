@@ -31,7 +31,7 @@
 
 
 void printAnimacion(char* texto);
-char* formatearRegistro(char* buffer, char* palabra, unsigned apariciones);
+char* formatearRegistro(char* buffer, char* palabra, unsigned apariciones, unsigned hsh);
 
 
 #endif // MENU_H_INCLUDED

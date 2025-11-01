@@ -4,8 +4,8 @@
 #include "menu.h"
 
 
-char* formatearRegistro(char* buffer, char* palabra, unsigned apariciones){
-    sprintf(buffer,"   Pal: [ %s ]\n\t Apariciones: %d \n  \n\n", palabra, apariciones);
+char* formatearRegistro(char* buffer, char* palabra, unsigned apariciones, unsigned hsh){
+    sprintf(buffer,"   Pal: [ %s ]\n\tApariciones: %d \n\tHash: %d\n \n\n", palabra, apariciones,hsh);
     return buffer;
 }
 
