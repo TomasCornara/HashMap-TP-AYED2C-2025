@@ -35,27 +35,27 @@ char* sigPalArch(FILE* arch, char* buffer, size_t buffer_size) {
         return NULL;
     }
 
-    if (isspace((unsigned char)c)) {
-        buffer[i++] = (char)c;
+    if (isspace(c)) {
+        buffer[i++] = c;
         int continuar = 1;
         while (continuar && i < buffer_size - 1) {
             c = fgetc(arch);
-            if (c == EOF || !isspace((unsigned char)c)) {
+            if (c == EOF || !isspace(c)) {
                 if (c != EOF) {
                     ungetc(c, arch);
                 }
                 continuar = 0;
             } else {
-                buffer[i++] = (char)c;
+                buffer[i++] = c;
             }
         }
         buffer[i] = '\0';
         return buffer;
     }
 
-    if (ispunct((unsigned char)c)) {
+    if (ispunct(c)) {
         if (buffer_size > 1) {
-            buffer[0] = (char)c;
+            buffer[0] = c;
             buffer[1] = '\0';
             return buffer;
         }
@@ -63,17 +63,17 @@ char* sigPalArch(FILE* arch, char* buffer, size_t buffer_size) {
         return NULL;
     }
 
-    buffer[i++] = (char)c;
+    buffer[i++] = c;
     int fin_palabra = 0;
     while (!fin_palabra && i < buffer_size - 1) {
         c = fgetc(arch);
-        if (c == EOF || isspace((unsigned char)c) || ispunct((unsigned char)c)) {
+        if (c == EOF || isspace(c) || ispunct(c)) {
             if (c != EOF) {
                 ungetc(c, arch);
             }
             fin_palabra = 1;
         } else {
-            buffer[i++] = (char)c;
+            buffer[i++] = c;
         }
     }
 

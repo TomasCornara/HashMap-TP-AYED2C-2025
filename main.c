@@ -77,6 +77,21 @@ int main(int argc, char *argv[])
         printf("Palabra 'lorem' no encontrada en el diccionario\n");
     }
 
+    ///Prueba de sacar_dic
+    printf("\nPrueba de sacar_dic\n");
+    printf("Intentando eliminar la palabra 'lorem'...\n");
+    if(sacar_dic(&dic, "lorem", hash_tRegistro, cmp_tRegistro)){
+        printf("Palabra 'lorem' eliminada exitosamente\n");
+        
+        // Verificar que ya no existe
+        registro_encontrado = (t_Registro*)obtener_dic(&dic, "lorem", hash_tRegistro, cmp_tRegistro);
+        if(!registro_encontrado){
+            printf("Confirmado: la palabra 'lorem' ya no existe en el diccionario\n");
+        }
+    } else {
+        printf("No se pudo eliminar la palabra 'lorem' (posiblemente no existe)\n");
+    }
+
     ///Bloque limpieza
     destruir_dic(&dic);
     fclose(arch);

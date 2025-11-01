@@ -88,3 +88,37 @@ void map_lista(const tLista* lista,void print(void* elem)){
         lista = &(*lista)->sig;
     }
 }
+
+int sacarDeLista(tLista* lista, const void* dato, 
+                 int (*comparar)(const void*, const void*),
+                 void (*destruir)(void*)) {
+    tNodo** p_lista = lista;
+    tNodo* nodo_a_eliminar;
+
+    // Validación de parámetros
+    if (!lista || !dato || !comparar)
+        return 0;
+
+    // Buscar el elemento
+    while (*p_lista && comparar(dato, (*p_lista) + 1) != 0)
+        p_lista = &((*p_lista)->sig);
+
+    // Si no se encontró el elemento
+    if (!*p_lista)
+        return 0;
+
+    // Guardar referencia al nodo a eliminar
+    nodo_a_eliminar = *p_lista;
+    
+    // Llamar a la función de destrucción si se proporcionó
+    if (destruir)
+        destruir(nodo_a_eliminar + 1);
+
+    // Desenlazar el nodo de la lista
+    *p_lista = nodo_a_eliminar->sig;
+
+    // Liberar memoria del nodo
+    free(nodo_a_eliminar);
+
+    return 1;
+}

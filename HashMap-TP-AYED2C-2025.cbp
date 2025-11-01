@@ -11,7 +11,6 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="test.txt " />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -32,11 +31,11 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="globales.h" />
-		<Unit filename="hash_map.c">
+		<Unit filename="diccionario.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="hash_map.h" />
+		<Unit filename="diccionario.h" />
+		<Unit filename="globales.h" />
 		<Unit filename="listaDinamica.c">
 			<Option compilerVar="CC" />
 		</Unit>

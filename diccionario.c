@@ -85,6 +85,23 @@ void* obtener_dic(const t_diccionario* dic, const char* clave, hash_func h_fun, 
     return NULL;
 }
 
+int sacar_dic(t_diccionario* dic, const char* clave, hash_func h_fun, comparar_func cmp_fun){
+    unsigned hash = h_fun(clave) % dic->capacidad;
+
+    // Crear elemento temporal para la busqueda
+    t_elemento elem_busqueda;
+    elem_busqueda.clave = (char*)clave;
+    elem_busqueda.valor = NULL;
+    elem_busqueda.tamValor = 0;
+
+    // Verificar que la lista no este vacia
+    if(listaVacia(&dic->tabla[hash])){
+        return 0; // No esta el elemento
+    }
+
+    //Saco de la lista
+    return sacarDeLista(&dic->tabla[hash], &elem_busqueda, cmp_fun, destruir_elementos_lista);
+}
 
 
 /// FUNCIONES AUXILIARES
