@@ -216,7 +216,6 @@ int procesarArchivo(const char* nombre_arch, t_diccionario* dic) {
 
         palabras_procesadas++;
         if (palabras_procesadas % 100 == 0) {
-            printf(".");
             fflush(stdout);
         }
     }
