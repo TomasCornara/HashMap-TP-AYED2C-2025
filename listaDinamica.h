@@ -20,5 +20,6 @@ int ponerEnLista(tLista* lista, const void* dato, unsigned cantBytes,
 int sacarDeLista(tLista* lista, const void* dato, 
                  int (*comparar)(const void*, const void*),
                  void (*destruir)(void*));
+unsigned contarElementosLista(const tLista* lista);
 
 #endif // LISTADINAMICA_H_INCLUDED

@@ -9,6 +9,7 @@ void destruir_elemento_dic(t_elemento* elem);
 void crear_elemento_dic(t_elemento* elem, const char* clave, const void* valor, unsigned tamValor);
 int comparar_elementos_dic(const void* elem1, const void* elem2);
 void accion_duplicado_dic(void* elem_existente, const void* elem_nuevo);
+int es_signo_puntuacion(const char* cadena);
 
 /// FUNCIONES PRINCIPALES
 void crear_dic(t_diccionario* dic, unsigned capacidad){
@@ -103,6 +104,30 @@ int sacar_dic(t_diccionario* dic, const char* clave, hash_func h_fun, comparar_f
     return sacarDeLista(&dic->tabla[hash], &elem_busqueda, cmp_fun, destruir_elementos_lista);
 }
 
+unsigned contar_palabras_dic(const t_diccionario* dic){
+    unsigned total_palabras = 0;
+    
+    // Recorrer todas las listas del diccionario
+    for(unsigned i = 0; i < dic->capacidad; i++){
+        if(!listaVacia(&dic->tabla[i])){
+            // Recorrer manualmente cada elemento de la lista
+            tNodo* nodo_actual = dic->tabla[i];
+            
+            while(nodo_actual){
+                t_elemento* elemento_actual = (t_elemento*)(nodo_actual + 1);
+                
+                // Solo contar si no es un signo de puntuación
+                if(!es_signo_puntuacion(elemento_actual->clave)){
+                    total_palabras++;
+                }
+                
+                nodo_actual = nodo_actual->sig;
+            }
+        }
+    }
+    
+    return total_palabras;
+}
 
 /// FUNCIONES AUXILIARES
 void destruir_elementos_lista(void* elem){
@@ -139,6 +164,26 @@ void accion_duplicado_dic(void* elem_existente, const void* elem_nuevo){
     existente->valor = malloc(nuevo->tamValor);
     memcpy(existente->valor, nuevo->valor, nuevo->tamValor);
     existente->tamValor = nuevo->tamValor;
+}
+
+int es_signo_puntuacion(const char* cadena){
+    // Verificar si la cadena es NULL o vacía
+    if(!cadena || cadena[0] == '\0'){
+        return 1; // Considerar como signo si es inválida
+    }
+    
+    // Verificar si todos los caracteres son signos de puntuación o espacios
+    for(int i = 0; cadena[i] != '\0'; i++){
+        char c = cadena[i];
+        
+        // Si encontramos una letra o número, es una palabra válida
+        if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')){
+            return 0; // No es signo, es palabra válida
+        }
+    }
+    
+    // Si llegamos aquí, todos los caracteres son signos de puntuación
+    return 1;
 }
 
 

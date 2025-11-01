@@ -122,3 +122,15 @@ int sacarDeLista(tLista* lista, const void* dato,
 
     return 1;
 }
+
+unsigned contarElementosLista(const tLista* lista) {
+    unsigned contador = 0;
+    tNodo* nodo_actual = *lista;
+    
+    while (nodo_actual) {
+        contador++;
+        nodo_actual = nodo_actual->sig;
+    }
+    
+    return contador;
+}
