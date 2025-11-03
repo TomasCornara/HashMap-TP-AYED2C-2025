@@ -53,3 +53,50 @@
 1762025676 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\diccionario.h
 	"listaDinamica.h"
 
+1762202882 source:c:\users\santi\onedrive\escritorio\algoritmos\hashmap-tp-ayed2c-2025\diccionario.c
+	"diccionario.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1762202882 c:\users\santi\onedrive\escritorio\algoritmos\hashmap-tp-ayed2c-2025\diccionario.h
+	"listaDinamica.h"
+
+1762202882 c:\users\santi\onedrive\escritorio\algoritmos\hashmap-tp-ayed2c-2025\listadinamica.h
+
+1762202882 source:c:\users\santi\onedrive\escritorio\algoritmos\hashmap-tp-ayed2c-2025\listadinamica.c
+	<string.h>
+	<stdlib.h>
+	<stdio.h>
+	"listaDinamica.h"
+
+1762202882 source:c:\users\santi\onedrive\escritorio\algoritmos\hashmap-tp-ayed2c-2025\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"diccionario.h"
+	"listaDinamica.h"
+	"parseArchivos.h"
+	"globales.h"
+	"menu.h"
+
+1761919582 c:\users\santi\onedrive\escritorio\algoritmos\hashmap-tp-ayed2c-2025\parsearchivos.h
+	<stdio.h>
+
+1761950702 c:\users\santi\onedrive\escritorio\algoritmos\hashmap-tp-ayed2c-2025\globales.h
+
+1762202882 c:\users\santi\onedrive\escritorio\algoritmos\hashmap-tp-ayed2c-2025\menu.h
+
+1762203034 source:c:\users\santi\onedrive\escritorio\algoritmos\hashmap-tp-ayed2c-2025\menu.c
+	<stdio.h>
+	<time.h>
+	<windows.h>
+	"menu.h"
+
+1762202882 source:c:\users\santi\onedrive\escritorio\algoritmos\hashmap-tp-ayed2c-2025\parsearchivos.c
+	<stdio.h>
+	<string.h>
+	<ctype.h>
+	"parseArchivos.h"
+

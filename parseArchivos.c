@@ -4,18 +4,25 @@
 
 #include "parseArchivos.h"
 
-FILE* abrirArchivoTextoL(char* nombre_arch) {
+FILE* abrirArchivoTextoL(char* nombre_arch)
+{
     char* aux;
     char buffer[MAX_NOMBRE];
 
     //Comprobar si el nombre esta bien formateado
-    if((aux = strrchr(nombre_arch,'.'))) {
-        if(strcmp(aux,".txt") == 0) {
+    if((aux = strrchr(nombre_arch,'.')))
+    {
+        if(strcmp(aux,".txt") == 0)
+        {
             sprintf(buffer,"%s",nombre_arch);
-        } else {
+        }
+        else
+        {
             return NULL; //Tipo de archivo incorrecto
         }
-    } else { //Si no pasa el formato, se lo agrego
+    }
+    else     //Si no pasa el formato, se lo agrego
+    {
         sprintf(buffer,"%s%s",nombre_arch,".txt");
     }
 
@@ -36,21 +43,13 @@ char* sigPalArch(FILE* arch, char* buffer, size_t buffer_size) {
     }
 
     if (isspace(c)) {
-        buffer[i++] = c;
-        int continuar = 1;
-        while (continuar && i < buffer_size - 1) {
-            c = fgetc(arch);
-            if (c == EOF || !isspace(c)) {
-                if (c != EOF) {
-                    ungetc(c, arch);
-                }
-                continuar = 0;
-            } else {
-                buffer[i++] = c;
-            }
+        if (buffer_size > 1) {
+            buffer[0] = c;
+            buffer[1] = '\0';
+            return buffer;
         }
-        buffer[i] = '\0';
-        return buffer;
+        ungetc(c, arch);
+        return NULL;
     }
 
     if (ispunct(c)) {
@@ -80,5 +79,3 @@ char* sigPalArch(FILE* arch, char* buffer, size_t buffer_size) {
     buffer[i] = '\0';
     return buffer;
 }
-
-

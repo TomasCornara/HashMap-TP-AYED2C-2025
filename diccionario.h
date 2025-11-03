@@ -3,13 +3,15 @@
 
 #include "listaDinamica.h"
 
-typedef struct {
+typedef struct
+{
     char* clave;
     void* valor;
     unsigned tamValor;
 } t_elemento;
 
-typedef struct {
+typedef struct
+{
     tLista* tabla;
     unsigned capacidad;
 } t_diccionario;

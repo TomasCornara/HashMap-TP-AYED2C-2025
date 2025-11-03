@@ -4,35 +4,43 @@
 #include "menu.h"
 
 
-char* formatearRegistro(char* buffer, char* palabra, unsigned apariciones, unsigned hsh){
-    sprintf(buffer,"   Pal: [ %s ]\tApariciones: %d\tHash: %d\n", palabra, apariciones,hsh);
+char* formatearRegistro(char* buffer, char* palabra, unsigned apariciones, unsigned hsh)
+{
+    sprintf(buffer,"   Pal: [%s] -> Apariciones: %d -> Hash: %d\n", palabra, apariciones,hsh);
     return buffer;
 }
 
-void esperar_ms(int ms) {
+void esperar_ms(int ms)
+{
     clock_t start = clock();
     clock_t end = start + ms * CLOCKS_PER_SEC / 1000;
     while(clock() < end);
 }
 
 
-void printAnimacion(char* texto){
+void printAnimacion(char* texto)
+{
     char *temp = texto;
 
-    while (*temp) {
+    while (*temp)
+    {
         printf("%c", *temp);
         fflush(stdout);
 
-        if (*temp == '\n') {
+        if (*temp == '\n')
+        {
             esperar_ms(ESPERA_SALTO_LINEA);
-        } else {
+        }
+        else
+        {
             esperar_ms(ESPERA_LETRA);
         }
         temp++;
     }
 }
 
-void mostrarMenu() {
+void mostrarMenu()
+{
     system("cls");
     printf("\n");
     printf("  --------------------------------------------\n");
@@ -48,12 +56,15 @@ void mostrarMenu() {
     printf("\n  Seleccione una opcion: ");
 }
 
-int leerOpcion() {
+int leerOpcion()
+{
     int opcion;
     char buffer[10];
 
-    if (fgets(buffer, sizeof(buffer), stdin) != NULL) {
-        if (sscanf(buffer, "%d", &opcion) == 1) {
+    if (fgets(buffer, sizeof(buffer), stdin) != NULL)
+    {
+        if (sscanf(buffer, "%d", &opcion) == 1)
+        {
             return opcion;
         }
     }

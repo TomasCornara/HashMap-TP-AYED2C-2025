@@ -1,10 +1,12 @@
 #ifndef LISTADINAMICA_H_INCLUDED
 #define LISTADINAMICA_H_INCLUDED
 
-typedef struct sNodo{
+typedef struct sNodo
+{
     unsigned tam;
+    void* dato;
     struct sNodo* sig;
-}tNodo;
+} tNodo;
 
 typedef tNodo* tLista;
 
@@ -17,7 +19,7 @@ void map_lista(const tLista* lista,void print(void* elem));
 int ponerEnLista(tLista* lista, const void* dato, unsigned cantBytes,
                  int (*comparar)(const void*, const void*),
                  void (*accionDuplicado)(void*, const void*));
-int sacarDeLista(tLista* lista, const void* dato, 
+int sacarDeLista(tLista* lista, const void* dato,
                  int (*comparar)(const void*, const void*),
                  void (*destruir)(void*));
 unsigned contarElementosLista(const tLista* lista);

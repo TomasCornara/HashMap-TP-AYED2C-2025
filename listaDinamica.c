@@ -3,15 +3,18 @@
 #include <stdio.h>
 #include "listaDinamica.h"
 
-void crearLista(tLista* lista){
+void crearLista(tLista* lista)
+{
     *lista = NULL;
 }
 
-int listaVacia(const tLista* lista){
+int listaVacia(const tLista* lista)
+{
     return *lista == NULL;
 }
 
-int listaLlena(const tLista* lista, unsigned cantBytes) {
+int listaLlena(const tLista* lista, unsigned cantBytes)
+{
     tNodo* aux = malloc(sizeof(tNodo) + cantBytes);
     if(aux == NULL)
         return 1;
@@ -20,14 +23,17 @@ int listaLlena(const tLista* lista, unsigned cantBytes) {
     return 0;
 }
 
-int ponerPrimero(tLista* lista, const void* dato, unsigned cantBytes){
+int ponerPrimero(tLista* lista, const void* dato, unsigned cantBytes)
+{
     tNodo* nue;
 
     nue = malloc(sizeof(tNodo) + cantBytes);
-    if(!nue){
+    if(!nue)
+    {
         return 0;
     }
 
+    nue->dato=nue+1;
     nue->sig = *lista;
     nue->tam = cantBytes;
     memcpy(nue + 1,dato,cantBytes);
@@ -36,10 +42,12 @@ int ponerPrimero(tLista* lista, const void* dato, unsigned cantBytes){
     return 1;
 }
 
-void vaciarLista(tLista* lista){
+void vaciarLista(tLista* lista)
+{
     tNodo* elim;
 
-    while(*lista){
+    while(*lista)
+    {
         elim = *lista;
         *lista = elim->sig;
         free(elim);
@@ -48,7 +56,8 @@ void vaciarLista(tLista* lista){
 
 int ponerEnLista(tLista* lista, const void* dato, unsigned cantBytes,
                  int (*comparar)(const void*, const void*),
-                 void (*accionDuplicado)(void*, const void*)) {
+                 void (*accionDuplicado)(void*, const void*))
+{
     tNodo* nue;
     tNodo** p_lista = lista;
 
@@ -61,7 +70,8 @@ int ponerEnLista(tLista* lista, const void* dato, unsigned cantBytes,
         p_lista = &((*p_lista)->sig);
 
     // Si ya existe el elemento
-    if (*p_lista && comparar(dato, (*p_lista) + 1) == 0) {
+    if (*p_lista && comparar(dato, (*p_lista) + 1) == 0)
+    {
         if (!accionDuplicado)
             return 0;
         accionDuplicado((*p_lista) + 1, dato);
@@ -74,6 +84,7 @@ int ponerEnLista(tLista* lista, const void* dato, unsigned cantBytes,
         return 0;
 
     memcpy(nue + 1, dato, cantBytes);
+    nue->dato=nue+1;
     nue->tam = cantBytes;
     nue->sig = *p_lista;
     *p_lista = nue;
@@ -82,16 +93,19 @@ int ponerEnLista(tLista* lista, const void* dato, unsigned cantBytes,
 }
 
 
-void map_lista(const tLista* lista,void print(void* elem)){
-    while(*lista){
+void map_lista(const tLista* lista,void print(void* elem))
+{
+    while(*lista)
+    {
         print((*lista) + 1);
         lista = &(*lista)->sig;
     }
 }
 
-int sacarDeLista(tLista* lista, const void* dato, 
+int sacarDeLista(tLista* lista, const void* dato,
                  int (*comparar)(const void*, const void*),
-                 void (*destruir)(void*)) {
+                 void (*destruir)(void*))
+{
     tNodo** p_lista = lista;
     tNodo* nodo_a_eliminar;
 
@@ -109,7 +123,7 @@ int sacarDeLista(tLista* lista, const void* dato,
 
     // Guardar referencia al nodo a eliminar
     nodo_a_eliminar = *p_lista;
-    
+
     // Llamar a la función de destrucción si se proporcionó
     if (destruir)
         destruir(nodo_a_eliminar + 1);
@@ -123,14 +137,16 @@ int sacarDeLista(tLista* lista, const void* dato,
     return 1;
 }
 
-unsigned contarElementosLista(const tLista* lista) {
+unsigned contarElementosLista(const tLista* lista)
+{
     unsigned contador = 0;
-    tNodo* nodo_actual = *lista;
-    
-    while (nodo_actual) {
+    tLista nodo_actual = *lista;
+
+    while (nodo_actual)
+    {
         contador++;
         nodo_actual = nodo_actual->sig;
     }
-    
+
     return contador;
 }

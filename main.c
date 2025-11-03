@@ -12,17 +12,17 @@
 #define SIZE_HS 50
 
 ///funciones para esta implementacion en particular
-typedef struct {
+typedef struct
+{
     char texto[MAX_BUFFER];
     unsigned apariciones;
-}t_Registro;
+} t_Registro;
 
 // Prototipos de funciones
 unsigned hash_tRegistro(const char* clave);
 int cmp_tRegistro(const void* elem1, const void* elem2);
 void registroDuplicado(void* elemOriginal, const void* elemEntrante);
 void mostrarRegistro(void* elem);
-void mostrarHashMap(t_diccionario* hm);
 unsigned hashKR(const char *s);
 void normalizar_minuscula(char *cadena);
 
@@ -52,53 +52,61 @@ int main()
     //Arch
     printf("  Ingrese el nombre del archivo de texto a procesar: ");
 
-    if (fgets(nombre_arch, sizeof(nombre_arch), stdin) == NULL) {
+    if (fgets(nombre_arch, sizeof(nombre_arch), stdin) == NULL)
+    {
         fprintf(stderr, "  Error: No se pudo leer el nombre del archivo\n");
         return -1;
     }
     // Eliminar el salto de línea
     len = strlen(nombre_arch);
-    if (len > 0 && nombre_arch[len - 1] == '\n') {
+    if (len > 0 && nombre_arch[len - 1] == '\n')
+    {
         nombre_arch[len - 1] = '\0';
     }
 
     // Procesar el archivo
-    if (procesarArchivo(nombre_arch, &dic) != 0) {
+    if (procesarArchivo(nombre_arch, &dic) != 0)
+    {
         return -1;
     }
 
     // Loop principal del menú
-    do {
+    do
+    {
         mostrarMenu();
         opcion = leerOpcion();
 
-        switch(opcion) {
-            case 1:
-                mostrarEstadisticas(&dic);
-                break;
-            case 2:
-                mostrarListadoPalabras(&dic);
-                break;
-            case 3:
-                buscarPalabraEspecifica(&dic);
-                break;
-            case 0:
-                printf("\n  Programa terminado exitosamente.\n");
-                break;
-            default:
-                printf("\n  Opcion invalida. Intente nuevamente.\n");
-                break;
+        switch(opcion)
+        {
+        case 1:
+            mostrarEstadisticas(&dic);
+            break;
+        case 2:
+            mostrarListadoPalabras(&dic);
+            break;
+        case 3:
+            buscarPalabraEspecifica(&dic);
+            break;
+        case 0:
+            printf("\n  Programa terminado exitosamente.\n");
+            break;
+        default:
+            printf("\n  Opcion invalida. Intente nuevamente.\n");
+            break;
         }
 
-        if (opcion != 0) {
+        if (opcion != 0)
+        {
             printf("\n  Presione Enter para continuar...");
             getchar();
         }
 
-    } while (opcion != 0);
+    }
+    while (opcion != 0);
 
     ///BLOQUE LIMPIEZA
-    if (archivo_procesado) {
+    if (archivo_procesado)
+    {
         destruir_dic(&dic);
     }
 
@@ -106,7 +114,8 @@ int main()
 }
 
 ///Implementacion de funciones auxiliares necesarias
-void mostrarEstadisticas(t_diccionario* dic) {
+void mostrarEstadisticas(t_diccionario* dic)
+{
     unsigned total_palabras,
              total_elementos,
              signos_puntuacion,
@@ -123,7 +132,8 @@ void mostrarEstadisticas(t_diccionario* dic) {
     //Calculos
     total_palabras = contar_palabras_dic(dic);
     total_elementos = 0;
-    for(i = 0; i < dic->capacidad; i++){
+    for(i = 0; i < dic->capacidad; i++)
+    {
         total_elementos += contarElementosLista(&dic->tabla[i]);
     }
     signos_puntuacion = total_elementos - total_palabras;
@@ -131,12 +141,14 @@ void mostrarEstadisticas(t_diccionario* dic) {
     //Print
     printf("  Cantidad total de palabras unicas: %u\n", total_palabras);
     printf("  Cantidad de signos de puntuacion: %u\n", signos_puntuacion);
+    printf("  Total de espacios: %u\n", ((t_Registro*)(obtener_dic(dic," ",hashKR,cmp_tRegistro)))->apariciones);
     printf("  Total de elementos procesados: %u\n", total_elementos);
     printf("  Capacidad del diccionario: %u\n", dic->capacidad);
     printf("\n");
 }
 
-void mostrarListadoPalabras(t_diccionario* dic) {
+void mostrarListadoPalabras(t_diccionario* dic)
+{
     system("cls");
     printf("\n");
     printf("  ------------------------------------------\n");
@@ -147,7 +159,8 @@ void mostrarListadoPalabras(t_diccionario* dic) {
     printf("\n");
 }
 
-void buscarPalabraEspecifica(t_diccionario* dic) {
+void buscarPalabraEspecifica(t_diccionario* dic)
+{
     char palabra_buscar[MAX_BUFFER];
     size_t len;
     t_Registro* registro_encontrado;
@@ -162,14 +175,16 @@ void buscarPalabraEspecifica(t_diccionario* dic) {
 
     printf("  Ingrese la palabra a buscar: ");
 
-    if (fgets(palabra_buscar, sizeof(palabra_buscar), stdin) == NULL) {
+    if (fgets(palabra_buscar, sizeof(palabra_buscar), stdin) == NULL)
+    {
         printf("  Error al leer la palabra.\n");
         return;
     }
 
     // Eliminar el salto de línea
     len = strlen(palabra_buscar);
-    if (len > 0 && palabra_buscar[len - 1] == '\n') {
+    if (len > 0 && palabra_buscar[len - 1] == '\n')
+    {
         palabra_buscar[len - 1] = '\0';
     }
 
@@ -179,24 +194,29 @@ void buscarPalabraEspecifica(t_diccionario* dic) {
     // Buscar la palabra en el diccionario
     registro_encontrado = obtener_dic(dic, palabra_buscar, hash_tRegistro, cmp_tRegistro);
 
-    if (registro_encontrado) {
+    if (registro_encontrado)
+    {
         hash_valor = hash_tRegistro(palabra_buscar) % dic->capacidad;
         printf("   Palabra: %s\n", registro_encontrado->texto);
         printf("   Apariciones: %u\n", registro_encontrado->apariciones);
         printf("   Valor hash: %u\n", hash_valor);
-    } else {
+    }
+    else
+    {
         printf("   '%s' no fue encontrada en el diccionario.\n", palabra_buscar);
     }
     printf("\n");
 }
 
-int procesarArchivo(const char* nombre_arch, t_diccionario* dic) {
+int procesarArchivo(const char* nombre_arch, t_diccionario* dic)
+{
     FILE* arch;
     t_Registro buffer_registro;
     unsigned palabras_procesadas;
 
     // Abrir archivo
-    if (!(arch = abrirArchivoTextoL((char*)nombre_arch))) {
+    if (!(arch = abrirArchivoTextoL((char*)nombre_arch)))
+    {
         fprintf(stderr, "  Error: No se pudo abrir el archivo '%s'\n", nombre_arch);
         return -1;
     }
@@ -208,14 +228,16 @@ int procesarArchivo(const char* nombre_arch, t_diccionario* dic) {
 
     // Procesar archivo palabra por palabra
     palabras_procesadas = 0;
-    while (sigPalArch(arch, buffer_registro.texto, MAX_BUFFER)) {
+    while (sigPalArch(arch, buffer_registro.texto, MAX_BUFFER))
+    {
         buffer_registro.apariciones = 1;
         normalizar_minuscula(buffer_registro.texto);
         poner_dic(dic, buffer_registro.texto, &buffer_registro, sizeof(t_Registro),
-                 hash_tRegistro, cmp_tRegistro, registroDuplicado);
+                  hash_tRegistro, cmp_tRegistro, registroDuplicado);
 
         palabras_procesadas++;
-        if (palabras_procesadas % 100 == 0) {
+        if (palabras_procesadas % 100 == 0)
+        {
             fflush(stdout);
         }
     }
@@ -226,56 +248,57 @@ int procesarArchivo(const char* nombre_arch, t_diccionario* dic) {
     return 0;
 }
 
-void limpiarBuffer() {
+void limpiarBuffer()
+{
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
-void normalizar_minuscula(char *cadena) {
+void normalizar_minuscula(char *cadena)
+{
     if (cadena == NULL) return;
 
-    for (size_t i = 0; cadena[i] != '\0'; i++) {
+    for (size_t i = 0; cadena[i] != '\0'; i++)
+    {
         cadena[i] = (char)tolower((unsigned char)cadena[i]);
     }
 }
 
-unsigned hashKR(const char *s) {
+unsigned hashKR(const char *s)
+{
     unsigned hashval;
     for (hashval = 0; *s != '\0'; s++)
         hashval = *s + 31 * hashval;
     return hashval;
 }
 
-void registroDuplicado(void* elemOriginal, const void* elemEntrante){
+void registroDuplicado(void* elemOriginal, const void* elemEntrante)
+{
     t_elemento* elemento_existente = (t_elemento*)elemOriginal;
     t_Registro* registroOriginal = (t_Registro*)elemento_existente->valor;
     registroOriginal->apariciones++;
 }
 
-int cmp_tRegistro(const void* elem1, const void* elem2){
+int cmp_tRegistro(const void* elem1, const void* elem2)
+{
     const t_elemento* elemento1 = (const t_elemento*)elem1;
     const t_elemento* elemento2 = (const t_elemento*)elem2;
     return strcmp(elemento1->clave, elemento2->clave);
 }
 
-unsigned hash_tRegistro(const char* clave){
+unsigned hash_tRegistro(const char* clave)
+{
     return hashKR(clave);
 }
 
-void mostrarRegistro(void* elem){
+void mostrarRegistro(void* elem)
+{
     char buffer[MAX_BUFFER];
     t_elemento* elemento = (t_elemento*)elem;
     t_Registro* registro = (t_Registro*)elemento->valor;
     unsigned hash_valor = hash_tRegistro(elemento->clave) % SIZE_HS;
     formatearRegistro(buffer, registro->texto, registro->apariciones, hash_valor);
     printf("%s",buffer);
-}
-
-void mostrarHashMap(t_diccionario* hm){
-    printAnimacion(HEADER);
-    recorrer_dic(hm, mostrarRegistro);
-    printAnimacion("\n  Presione cualquier tecla para terminar...\n");
-    getchar();
 }
 
 
