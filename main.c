@@ -12,13 +12,6 @@
 #define SIZE_HS 50
 
 ///funciones para esta implementacion en particular
-typedef struct
-{
-    char texto[MAX_BUFFER];
-    unsigned apariciones;
-} t_Registro;
-
-// Prototipos de funciones
 unsigned hash_tRegistro(const char* clave);
 int cmp_tRegistro(const void* elem1, const void* elem2);
 void registroDuplicado(void* elemOriginal, const void* elemEntrante);
@@ -70,7 +63,7 @@ int main()
         return -1;
     }
 
-    // Loop principal del menú
+    // Loop principal del menu
     do
     {
         mostrarMenu();
@@ -141,7 +134,7 @@ void mostrarEstadisticas(t_diccionario* dic)
     //Print
     printf("  Cantidad total de palabras unicas: %u\n", total_palabras);
     printf("  Cantidad de signos de puntuacion: %u\n", signos_puntuacion);
-    printf("  Total de espacios: %u\n", ((t_Registro*)(obtener_dic(dic," ",hashKR,cmp_tRegistro)))->apariciones);
+    printf("  Total de espacios: %u\n", *((unsigned*)(obtener_dic(dic," ",hashKR,cmp_tRegistro))));
     printf("  Total de elementos procesados: %u\n", total_elementos);
     printf("  Capacidad del diccionario: %u\n", dic->capacidad);
     printf("\n");
@@ -163,7 +156,7 @@ void buscarPalabraEspecifica(t_diccionario* dic)
 {
     char palabra_buscar[MAX_BUFFER];
     size_t len;
-    t_Registro* registro_encontrado;
+    unsigned* apariciones_encontradas;
     unsigned hash_valor;
 
     system("cls");
@@ -192,13 +185,13 @@ void buscarPalabraEspecifica(t_diccionario* dic)
     normalizar_minuscula(palabra_buscar);
 
     // Buscar la palabra en el diccionario
-    registro_encontrado = obtener_dic(dic, palabra_buscar, hash_tRegistro, cmp_tRegistro);
+    apariciones_encontradas = obtener_dic(dic, palabra_buscar, hash_tRegistro, cmp_tRegistro);
 
-    if (registro_encontrado)
+    if (apariciones_encontradas)
     {
         hash_valor = hash_tRegistro(palabra_buscar) % dic->capacidad;
-        printf("   Palabra: %s\n", registro_encontrado->texto);
-        printf("   Apariciones: %u\n", registro_encontrado->apariciones);
+        printf("   Palabra: %s\n", palabra_buscar);
+        printf("   Apariciones: %u\n", *apariciones_encontradas);
         printf("   Valor hash: %u\n", hash_valor);
     }
     else
@@ -211,7 +204,8 @@ void buscarPalabraEspecifica(t_diccionario* dic)
 int procesarArchivo(const char* nombre_arch, t_diccionario* dic)
 {
     FILE* arch;
-    t_Registro buffer_registro;
+    char texto_buffer[MAX_BUFFER];
+    unsigned apariciones;
     unsigned palabras_procesadas;
 
     // Abrir archivo
@@ -228,11 +222,11 @@ int procesarArchivo(const char* nombre_arch, t_diccionario* dic)
 
     // Procesar archivo palabra por palabra
     palabras_procesadas = 0;
-    while (sigPalArch(arch, buffer_registro.texto, MAX_BUFFER))
+    while (sigPalArch(arch, texto_buffer, MAX_BUFFER))
     {
-        buffer_registro.apariciones = 1;
-        normalizar_minuscula(buffer_registro.texto);
-        poner_dic(dic, buffer_registro.texto, &buffer_registro, sizeof(t_Registro),
+        apariciones = 1;
+        normalizar_minuscula(texto_buffer);
+        poner_dic(dic, texto_buffer, &apariciones, sizeof(unsigned),
                   hash_tRegistro, cmp_tRegistro, registroDuplicado);
 
         palabras_procesadas++;
@@ -256,9 +250,11 @@ void limpiarBuffer()
 
 void normalizar_minuscula(char *cadena)
 {
+    unsigned i;
+
     if (cadena == NULL) return;
 
-    for (size_t i = 0; cadena[i] != '\0'; i++)
+    for (i = 0; cadena[i] != '\0'; i++)
     {
         cadena[i] = (char)tolower((unsigned char)cadena[i]);
     }
@@ -274,15 +270,19 @@ unsigned hashKR(const char *s)
 
 void registroDuplicado(void* elemOriginal, const void* elemEntrante)
 {
-    t_elemento* elemento_existente = (t_elemento*)elemOriginal;
-    t_Registro* registroOriginal = (t_Registro*)elemento_existente->valor;
-    registroOriginal->apariciones++;
+    t_elemento* elemento_existente;
+    elemento_existente = (t_elemento*)elemOriginal;
+    (*(unsigned*)elemento_existente->valor)++;
 }
 
 int cmp_tRegistro(const void* elem1, const void* elem2)
 {
-    const t_elemento* elemento1 = (const t_elemento*)elem1;
-    const t_elemento* elemento2 = (const t_elemento*)elem2;
+    const t_elemento* elemento1;
+    const t_elemento* elemento2;
+
+    elemento1 = (const t_elemento*)elem1;
+    elemento2 = (const t_elemento*)elem2;
+
     return strcmp(elemento1->clave, elemento2->clave);
 }
 
@@ -294,11 +294,17 @@ unsigned hash_tRegistro(const char* clave)
 void mostrarRegistro(void* elem)
 {
     char buffer[MAX_BUFFER];
-    t_elemento* elemento = (t_elemento*)elem;
-    t_Registro* registro = (t_Registro*)elemento->valor;
-    unsigned hash_valor = hash_tRegistro(elemento->clave) % SIZE_HS;
-    formatearRegistro(buffer, registro->texto, registro->apariciones, hash_valor);
-    printf("%s",buffer);
+    t_elemento* elemento;
+    unsigned* apariciones;
+    unsigned hash_valor;
+
+    elemento = (t_elemento*)elem;
+    apariciones = (unsigned*)elemento->valor;
+    hash_valor = hash_tRegistro(elemento->clave) % SIZE_HS;
+
+    formatearRegistro(buffer, elemento->clave, *apariciones, hash_valor);
+    printf("%s", buffer);
 }
+
 
 

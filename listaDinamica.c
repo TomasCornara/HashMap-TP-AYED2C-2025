@@ -36,7 +36,7 @@ int ponerPrimero(tLista* lista, const void* dato, unsigned cantBytes)
     nue->dato=nue+1;
     nue->sig = *lista;
     nue->tam = cantBytes;
-    memcpy(nue + 1,dato,cantBytes);
+    memcpy(nue->dato,dato,cantBytes);
     *lista = nue;
 
     return 1;
@@ -66,15 +66,15 @@ int ponerEnLista(tLista* lista, const void* dato, unsigned cantBytes,
         return 0;
 
     // Buscar posicion ordenada
-    while (*p_lista && comparar(dato, (*p_lista) + 1) > 0)
+    while (*p_lista && comparar(dato, (*p_lista)->dato) > 0)
         p_lista = &((*p_lista)->sig);
 
     // Si ya existe el elemento
-    if (*p_lista && comparar(dato, (*p_lista) + 1) == 0)
+    if (*p_lista && comparar(dato, (*p_lista)->dato) == 0)
     {
         if (!accionDuplicado)
             return 0;
-        accionDuplicado((*p_lista) + 1, dato);
+        accionDuplicado((*p_lista)->dato, dato);
         return 1;
     }
 
@@ -83,8 +83,8 @@ int ponerEnLista(tLista* lista, const void* dato, unsigned cantBytes,
     if (!nue)
         return 0;
 
-    memcpy(nue + 1, dato, cantBytes);
     nue->dato=nue+1;
+    memcpy(nue->dato, dato, cantBytes);
     nue->tam = cantBytes;
     nue->sig = *p_lista;
     *p_lista = nue;
@@ -97,7 +97,7 @@ void map_lista(const tLista* lista,void print(void* elem))
 {
     while(*lista)
     {
-        print((*lista) + 1);
+        print((*lista)->dato);
         lista = &(*lista)->sig;
     }
 }
@@ -114,7 +114,7 @@ int sacarDeLista(tLista* lista, const void* dato,
         return 0;
 
     // Buscar el elemento
-    while (*p_lista && comparar(dato, (*p_lista) + 1) != 0)
+    while (*p_lista && comparar(dato, (*p_lista)->dato) != 0)
         p_lista = &((*p_lista)->sig);
 
     // Si no se encontró el elemento
@@ -126,7 +126,7 @@ int sacarDeLista(tLista* lista, const void* dato,
 
     // Llamar a la función de destrucción si se proporcionó
     if (destruir)
-        destruir(nodo_a_eliminar + 1);
+        destruir(nodo_a_eliminar->dato);
 
     // Desenlazar el nodo de la lista
     *p_lista = nodo_a_eliminar->sig;

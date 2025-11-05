@@ -84,7 +84,7 @@ void* obtener_dic(const t_diccionario* dic, const char* clave, hash_func h_fun, 
     while(nodo_actual)
     {
         // Obtener el elemento almacenado en el nodo
-        t_elemento* elemento_actual = (t_elemento*)(nodo_actual + 1);
+        t_elemento* elemento_actual = (t_elemento*)(nodo_actual)->dato;
 
         // Comparar con el elemento buscado
         if(cmp_fun(elemento_actual, &elem_busqueda) == 0)
