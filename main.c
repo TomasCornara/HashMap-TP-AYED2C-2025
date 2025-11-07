@@ -15,7 +15,7 @@
 unsigned hash_tRegistro(const char* clave);
 int cmp_tRegistro(const void* elem1, const void* elem2);
 void registroDuplicado(void* elemOriginal, const void* elemEntrante);
-void mostrarRegistro(void* elem);
+void mostrarRegistro(void* elem, const t_diccionario* dic);
 unsigned hashKR(const char *s);
 void normalizar_minuscula(char *cadena);
 
@@ -134,7 +134,7 @@ void mostrarEstadisticas(t_diccionario* dic)
     //Print
     printf("  Cantidad total de palabras unicas: %u\n", total_palabras);
     printf("  Cantidad de signos de puntuacion: %u\n", signos_puntuacion);
-    printf("  Total de espacios: %u\n", *((unsigned*)(obtener_dic(dic," ",hashKR,cmp_tRegistro))));
+    printf("  Total de espacios: %u\n", *((unsigned*)(obtener_dic(dic," "))));
     printf("  Total de elementos procesados: %u\n", total_elementos);
     printf("  Capacidad del diccionario: %u\n", dic->capacidad);
     printf("\n");
@@ -174,7 +174,7 @@ void buscarPalabraEspecifica(t_diccionario* dic)
         return;
     }
 
-    // Eliminar el salto de línea
+    // Cambiar el salto de linea
     len = strlen(palabra_buscar);
     if (len > 0 && palabra_buscar[len - 1] == '\n')
     {
@@ -185,7 +185,7 @@ void buscarPalabraEspecifica(t_diccionario* dic)
     normalizar_minuscula(palabra_buscar);
 
     // Buscar la palabra en el diccionario
-    apariciones_encontradas = obtener_dic(dic, palabra_buscar, hash_tRegistro, cmp_tRegistro);
+    apariciones_encontradas = obtener_dic(dic, palabra_buscar);
 
     if (apariciones_encontradas)
     {
@@ -208,15 +208,15 @@ int procesarArchivo(const char* nombre_arch, t_diccionario* dic)
     unsigned apariciones;
     unsigned palabras_procesadas;
 
-    // Abrir archivo
+    // Apertura del archivo
     if (!(arch = abrirArchivoTextoL((char*)nombre_arch)))
     {
         fprintf(stderr, "  Error: No se pudo abrir el archivo '%s'\n", nombre_arch);
         return -1;
     }
 
-    // Crear diccionario
-    crear_dic(dic, SIZE_HS);
+    // Creacion del diccionario
+    crear_dic(dic, SIZE_HS, hash_tRegistro, cmp_tRegistro, registroDuplicado);
 
     printf("  Leyendo y procesando palabras");
 
@@ -226,8 +226,7 @@ int procesarArchivo(const char* nombre_arch, t_diccionario* dic)
     {
         apariciones = 1;
         normalizar_minuscula(texto_buffer);
-        poner_dic(dic, texto_buffer, &apariciones, sizeof(unsigned),
-                  hash_tRegistro, cmp_tRegistro, registroDuplicado);
+        poner_dic(dic, texto_buffer, &apariciones, sizeof(unsigned)); //Se envia el elemento
 
         palabras_procesadas++;
         if (palabras_procesadas % 100 == 0)
@@ -291,7 +290,7 @@ unsigned hash_tRegistro(const char* clave)
     return hashKR(clave);
 }
 
-void mostrarRegistro(void* elem)
+void mostrarRegistro(void* elem, const t_diccionario* dic)
 {
     char buffer[MAX_BUFFER];
     t_elemento* elemento;
@@ -300,7 +299,7 @@ void mostrarRegistro(void* elem)
 
     elemento = (t_elemento*)elem;
     apariciones = (unsigned*)elemento->valor;
-    hash_valor = hash_tRegistro(elemento->clave) % SIZE_HS;
+    hash_valor = dic->hash_fn(elemento->clave) % dic->capacidad;
 
     formatearRegistro(buffer, elemento->clave, *apariciones, hash_valor);
     printf("%s", buffer);

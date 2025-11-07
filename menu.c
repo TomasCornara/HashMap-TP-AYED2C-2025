@@ -68,5 +68,5 @@ int leerOpcion()
             return opcion;
         }
     }
-    return -1; // Opcion inválida
+    return -1;
 }
