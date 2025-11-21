@@ -79,3 +79,23 @@ char* sigPalArch(FILE* arch, char* buffer, size_t buffer_size) {
     buffer[i] = '\0';
     return buffer;
 }
+
+int es_signo_puntuacion(const char* cadena)
+{
+    char c;
+
+    if(!cadena || cadena[0] == '\0')
+    {
+        return 1;
+    }
+
+    for(int i = 0; cadena[i] != '\0'; i++)
+    {
+        c = cadena[i];
+        if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
+        {
+            return 0;
+        }
+    }
+    return 1;
+}

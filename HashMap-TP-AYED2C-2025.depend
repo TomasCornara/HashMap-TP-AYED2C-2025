@@ -6,7 +6,7 @@
 1761361690 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\hash_map.h
 	"listaDinamica.h"
 
-1762371592 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\main.c
+1763747755 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -17,40 +17,41 @@
 	"globales.h"
 	"menu.h"
 
-1762203137 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\listadinamica.h
+1763746068 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\listadinamica.h
 
-1762368933 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\listadinamica.c
+1763746091 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\listadinamica.c
 	<string.h>
 	<stdlib.h>
 	<stdio.h>
 	"listaDinamica.h"
 
-1762203137 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\parsearchivos.c
+1763699141 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\parsearchivos.c
 	<stdio.h>
 	<string.h>
 	<ctype.h>
 	"parseArchivos.h"
 
-1762025675 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\parsearchivos.h
+1763699141 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\parsearchivos.h
 	<stdio.h>
 
-1761824098 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\globales.h
+1763414504 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\globales.h
 
-1762203137 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\menu.h
+1763414504 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\menu.h
 
-1762203137 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\menu.c
+1763747529 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\menu.c
 	<stdio.h>
 	<time.h>
 	<windows.h>
 	"menu.h"
 
-1762372041 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\diccionario.c
+1763747529 source:c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\diccionario.c
 	"diccionario.h"
+	"parseArchivos.h"
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 
-1762371657 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\diccionario.h
+1763747529 c:\users\tomas\documents\github\hashmap-tp-ayed2c-2025\diccionario.h
 	"listaDinamica.h"
 
 1762202882 source:c:\users\santi\onedrive\escritorio\algoritmos\hashmap-tp-ayed2c-2025\diccionario.c

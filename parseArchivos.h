@@ -7,5 +7,6 @@
 
 FILE* abrirArchivoTextoL(char* nombre_arch);
 char* sigPalArch(FILE* arch, char* buffer, size_t buffer_size);
+int es_signo_puntuacion(const char* cadena);
 
 #endif // PARSEARCHIVOS_H_INCLUDED

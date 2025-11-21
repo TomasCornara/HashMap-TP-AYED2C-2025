@@ -150,3 +150,28 @@ unsigned contarElementosLista(const tLista* lista)
 
     return contador;
 }
+
+tNodo* buscarEnLista(const tLista* lista, const void* dato,
+                     int (*comparar)(const void*, const void*))
+{
+    tNodo* nodo_actual;
+
+    if (!lista || !dato || !comparar)
+        return NULL;
+
+    if (!*lista)
+        return NULL;
+
+    nodo_actual = *lista;
+
+    while (nodo_actual)
+    {
+        if (comparar(dato, nodo_actual->dato) == 0)
+        {
+            return nodo_actual;
+        }
+        nodo_actual = nodo_actual->sig;
+    }
+
+    return NULL;
+}

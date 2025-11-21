@@ -23,5 +23,7 @@ int sacarDeLista(tLista* lista, const void* dato,
                  int (*comparar)(const void*, const void*),
                  void (*destruir)(void*));
 unsigned contarElementosLista(const tLista* lista);
+tNodo* buscarEnLista(const tLista* lista, const void* dato,
+                     int (*comparar)(const void*, const void*));
 
 #endif // LISTADINAMICA_H_INCLUDED

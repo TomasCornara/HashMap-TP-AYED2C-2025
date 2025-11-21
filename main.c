@@ -12,12 +12,13 @@
 #define SIZE_HS 50
 
 ///funciones para esta implementacion en particular
-unsigned hash_tRegistro(const char* clave);
 int cmp_tRegistro(const void* elem1, const void* elem2);
 void registroDuplicado(void* elemOriginal, const void* elemEntrante);
 void mostrarRegistro(void* elem, const t_diccionario* dic);
 unsigned hashKR(const char *s);
 void normalizar_minuscula(char *cadena);
+unsigned contar_signos_puntuacion_dic(const t_diccionario* dic);
+unsigned contar_palabras_dic(const t_diccionario* dic);
 
 // Funciones del menú
 void mostrarMenu();
@@ -112,7 +113,15 @@ void mostrarEstadisticas(t_diccionario* dic)
     unsigned total_palabras,
              total_elementos,
              signos_puntuacion,
+             total_espacios,
              i;
+    unsigned *ptr_espacios, *ptr_aux_punt;
+
+    // Array de signos de puntuación a contar
+    const char* signos_puntuacion_array[] = {
+        ".", ",", "!", "?", ";", ":", "-", "(", ")",
+        "[", "]", "{", "}", "'", "\"", "¿", "¡", NULL
+    };
 
     system("cls");
     printf("\n");
@@ -122,20 +131,39 @@ void mostrarEstadisticas(t_diccionario* dic)
     printf("\n");
 
 
-    //Calculos
+    ///Calculos
+
+    //Espacios
+    ptr_espacios = (unsigned*)obtener_dic(dic, " ");
+    total_espacios = (ptr_espacios != NULL) ? *ptr_espacios : 0;
+
+    //Signos puntuacion
+    signos_puntuacion = 0;
+    for(i = 0; signos_puntuacion_array[i] != NULL; i++)
+    {
+        ptr_aux_punt = (unsigned*)obtener_dic(dic, signos_puntuacion_array[i]);
+        if(ptr_aux_punt)
+        {
+            signos_puntuacion += *ptr_aux_punt;
+        }
+    }
+
+
+    //Palabras
     total_palabras = contar_palabras_dic(dic);
+
+    //Total elementos
     total_elementos = 0;
     for(i = 0; i < dic->capacidad; i++)
     {
         total_elementos += contarElementosLista(&dic->tabla[i]);
     }
-    signos_puntuacion = total_elementos - total_palabras;
 
     //Print
     printf("  Cantidad total de palabras unicas: %u\n", total_palabras);
     printf("  Cantidad de signos de puntuacion: %u\n", signos_puntuacion);
-    printf("  Total de espacios: %u\n", *((unsigned*)(obtener_dic(dic," "))));
-    printf("  Total de elementos procesados: %u\n", total_elementos);
+    printf("  Total de espacios: %u\n", total_espacios);
+    printf("  Total elementos unicos en el diccionario: %u\n", total_elementos);
     printf("  Capacidad del diccionario: %u\n", dic->capacidad);
     printf("\n");
 }
@@ -189,7 +217,7 @@ void buscarPalabraEspecifica(t_diccionario* dic)
 
     if (apariciones_encontradas)
     {
-        hash_valor = hash_tRegistro(palabra_buscar) % dic->capacidad;
+        hash_valor = hashKR(palabra_buscar) % dic->capacidad;
         printf("   Palabra: %s\n", palabra_buscar);
         printf("   Apariciones: %u\n", *apariciones_encontradas);
         printf("   Valor hash: %u\n", hash_valor);
@@ -216,7 +244,11 @@ int procesarArchivo(const char* nombre_arch, t_diccionario* dic)
     }
 
     // Creacion del diccionario
-    crear_dic(dic, SIZE_HS, hash_tRegistro, cmp_tRegistro, registroDuplicado);
+    if(!crear_dic(dic, SIZE_HS)){
+        fclose(arch);
+        fprintf(stderr, "  Error: No se pudo crear el diccionario\n");
+        return 0;
+    };
 
     printf("  Leyendo y procesando palabras");
 
@@ -224,9 +256,22 @@ int procesarArchivo(const char* nombre_arch, t_diccionario* dic)
     palabras_procesadas = 0;
     while (sigPalArch(arch, texto_buffer, MAX_BUFFER))
     {
-        apariciones = 1;
+        unsigned* apariciones_existentes;
+
         normalizar_minuscula(texto_buffer);
-        poner_dic(dic, texto_buffer, &apariciones, sizeof(unsigned)); //Se envia el elemento
+        // Verificar si la palabra ya existe
+        apariciones_existentes = (unsigned*)obtener_dic(dic, texto_buffer);
+        if (apariciones_existentes)
+        {
+            apariciones = (*apariciones_existentes) + 1;
+        }
+        else
+        {
+            // Palabra nueva
+            apariciones = 1;
+        }
+
+        poner_dic(dic, texto_buffer, &apariciones, sizeof(unsigned));
 
         palabras_procesadas++;
         if (palabras_procesadas % 100 == 0)
@@ -259,14 +304,6 @@ void normalizar_minuscula(char *cadena)
     }
 }
 
-unsigned hashKR(const char *s)
-{
-    unsigned hashval;
-    for (hashval = 0; *s != '\0'; s++)
-        hashval = *s + 31 * hashval;
-    return hashval;
-}
-
 void registroDuplicado(void* elemOriginal, const void* elemEntrante)
 {
     t_elemento* elemento_existente;
@@ -285,11 +322,6 @@ int cmp_tRegistro(const void* elem1, const void* elem2)
     return strcmp(elemento1->clave, elemento2->clave);
 }
 
-unsigned hash_tRegistro(const char* clave)
-{
-    return hashKR(clave);
-}
-
 void mostrarRegistro(void* elem, const t_diccionario* dic)
 {
     char buffer[MAX_BUFFER];
@@ -303,6 +335,60 @@ void mostrarRegistro(void* elem, const t_diccionario* dic)
 
     formatearRegistro(buffer, elemento->clave, *apariciones, hash_valor);
     printf("%s", buffer);
+}
+
+unsigned contar_signos_puntuacion_dic(const t_diccionario* dic)
+{
+    unsigned i;
+    unsigned total_signos = 0;
+
+    for(i = 0; i < dic->capacidad; i++)
+    {
+        if(!listaVacia(&dic->tabla[i]))
+        {
+            tLista nodo_actual = dic->tabla[i];
+
+            while(nodo_actual)
+            {
+                t_elemento* elemento_actual = (t_elemento*) nodo_actual->dato;
+
+                if(es_signo_puntuacion(elemento_actual->clave))
+                {
+                    total_signos++;
+                }
+                nodo_actual = nodo_actual->sig;
+            }
+        }
+    }
+
+    return total_signos;
+}
+
+unsigned contar_palabras_dic(const t_diccionario* dic)
+{
+    unsigned i;
+    unsigned total_palabras = 0;
+
+    for(i = 0; i < dic->capacidad; i++)
+    {
+        if(!listaVacia(&dic->tabla[i]))
+        {
+            tLista nodo_actual = dic->tabla[i];
+
+            while(nodo_actual)
+            {
+                t_elemento* elemento_actual = (t_elemento*) nodo_actual->dato;
+
+                if(!es_signo_puntuacion(elemento_actual->clave))
+                {
+                    total_palabras++;
+                }
+                nodo_actual = nodo_actual->sig;
+            }
+        }
+    }
+
+    return total_palabras;
 }
 
 
